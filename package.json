@@ -27,5 +27,10 @@
   "bugs": {
     "url": "https://github.com/great-lakes/botbuilder-agent/issues"
   },
-  "homepage": "https://github.com/great-lakes/botbuilder-agent#readme"
+  "homepage": "https://github.com/great-lakes/botbuilder-agent#readme",
+  "dependencies": {
+    "@types/node-fetch": "^1.6.7",
+    "botframework-directlinejs": "^0.9.14",
+    "node-fetch": "^2.1.1"
+  }
 }
