@@ -5,12 +5,20 @@
 import fetch from 'node-fetch'
 import { DirectLine } from 'botframework-directlinejs'
 
-// Interface Options:
-// OPTION 1: User pases in function which returns a promise (resolves the message string(s))
-// OPTION 1: Pro - user defines how to handle resonse object and parse (probably best this way)
+/**
+ * Interface Options:
+ * OPTION 1: User pases in function which returns a promise (resolves the message string(s))
+ * OPTION 1: Pro - user defines how to handle resonse object and parse (probably best this way)
+ * 
+ * OPTION 2: User passes in payload and endpoint and we construct a fetch call
+ * OPTION 2: Pro - allows us to control the call library
+ */
 
-// OPTION 2: User passes in payload and endpoint and we construct a fetch call
-// OPTION 2: Pro - allows us to control the call library
+/**
+ * Things to decide:
+ * - How do we handle this in wolf intake?
+ * - Generally, how do users know this directline message is from `agent` to handle accordingly?
+ */
 
 var directLine = new DirectLine({
   secret: '/* put your Direct Line secret here */',
