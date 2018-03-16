@@ -2,9 +2,14 @@
   "name": "botbuilder-agent",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index",
+  "typings": "dist/index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "bulld:watch": "tsc -w",
+    "build:dev": "tsc --p tsconfig.example.json",
+    "build:dev:watch": "tsc --p tsconfig.example.json -w",
+    "test": ""
   },
   "repository": {
     "type": "git",
@@ -16,6 +21,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.7.2"
+  },
   "bugs": {
     "url": "https://github.com/great-lakes/botbuilder-agent/issues"
   },
