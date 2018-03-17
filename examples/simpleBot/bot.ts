@@ -18,9 +18,9 @@ server.post('/api/messages', adapter.listen())
 import { makeAgent, ResponseObject } from '../../src'
 makeAgent('{DirectLineSecret}')
 
-const asynchronous = () => {
+const asynchronousPromise = () => {
   return new Promise((resolve, reject) => {
-    resolve
+    resolve()
   })
 }
 

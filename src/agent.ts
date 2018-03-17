@@ -5,15 +5,27 @@
 import { DirectLine } from 'botframework-directlinejs'
 
 /**
- * Interface Promise should resolve
+ * Interface Promise should resolve.
  * 
+ * ```js
+ * {
+ *  message: string
+ * }
+ * ```
  */
 export interface ResponseObject {
   message: string
 }
 
+
+function makeDirectlineClient = (secret?: string) {
+  if (!secret) {
+    // make offline directline
+  }
+}
+
 /**
- * Initialize agent with DirectLine secret to make calls
+ * Initialize agent with DirectLine secret to make calls.
  * 
  * **Usage Example**
  *
@@ -22,18 +34,12 @@ export interface ResponseObject {
  * 
  * // initialize agent
  * const agent = makeAgent('{DirectLineSecret}')
+ *
  * // create Promise make asynchronous call
  * agent(callPromise)
  * ```
  * @param secret - DirectLine secret
  */
-
-function makeDirectlineClient = (secret?: string) {
-  if (!secret) {
-    // make offline directline
-  }
-}
-
 export function makeAgent (secret: string) {
   const directLine = new DirectLine({secret})
 
