@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { Bot, MemoryStorage, BotStateManager } from 'botbuilder'
 import { BotFrameworkAdapter } from 'botbuilder-services'
 import * as fetch from 'node-fetch'
@@ -16,11 +17,13 @@ server.post('/api/messages', adapter.listen())
 
 // botbuilder-agent
 import { makeAgent, ResponseObject } from '../../src'
-makeAgent('{DirectLineSecret}')
+const agent = makeAgent({directlineSecret: process.env.DIRECTLINE_SECRET})
 
-const asynchronousPromise = () => {
+const asynchronousPromise = () : Promise<ResponseObject> => {
   return new Promise((resolve, reject) => {
-    resolve()
+    setTimeout(() => {
+      resolve({message: 'hello from agent'})
+    }, 1000)
   })
 }
 
@@ -35,6 +38,7 @@ new Bot(adapter)
 
         const message = context.request.text
         context.reply(message)
+        agent(asynchronousPromise)
 
       } catch (err) {
         console.error(err)

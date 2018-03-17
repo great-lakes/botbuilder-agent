@@ -41,16 +41,16 @@ export interface AgentConfig {
  */
 
 const startOfflineDirectline = (botUrl: string = ''): string => {
-  const domain: string = "http://127.0.0.1:3000"
-  const directline = require("offline-directline")
-  const express = require("express")
+  const domain: string = 'http://127.0.0.1:3000'
+  const directline = require('offline-directline')
+  const express = require('express')
 
   const app = express();
   directline.initializeRoutes(app, domain, botUrl)
   return `${domain}/v3/directline`
 }
 
-export function makeAgent ({directlineSecret, botUrl}: AgentConfig) {
+export function makeAgent ({directlineSecret, botUrl = 'http://localhost:3978/api/messages'}: AgentConfig) {
 
   const directlineConfig: DirectLineOptions = {
     secret: directlineSecret
