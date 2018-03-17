@@ -4,6 +4,10 @@
 
 import { DirectLine } from 'botframework-directlinejs'
 
+/**
+ * Interface Promise should resolve
+ * 
+ */
 export interface ResponseObject {
   message: string
 }
@@ -23,6 +27,13 @@ export interface ResponseObject {
  * ```
  * @param secret - DirectLine secret
  */
+
+function makeDirectlineClient = (secret?: string) {
+  if (!secret) {
+    // make offline directline
+  }
+}
+
 export function makeAgent (secret: string) {
   const directLine = new DirectLine({secret})
 

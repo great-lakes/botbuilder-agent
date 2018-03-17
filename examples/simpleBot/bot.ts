@@ -1,6 +1,6 @@
 import { Bot, MemoryStorage, BotStateManager } from 'botbuilder'
 import { BotFrameworkAdapter } from 'botbuilder-services'
-import { makeAgent } from '../../src'
+import * as fetch from 'node-fetch'
 const restify = require('restify')
 let server = restify.createServer()
 server.listen(process.env.port || 3978, () => {
@@ -14,6 +14,15 @@ const adapter = new BotFrameworkAdapter(
 
 server.post('/api/messages', adapter.listen())
 
+// botbuilder-agent
+import { makeAgent, ResponseObject } from '../../src'
+makeAgent('{DirectLineSecret}')
+
+const asynchronous = () => {
+  return new Promise((resolve, reject) => {
+    resolve
+  })
+}
 
 new Bot(adapter)
     .use(new MemoryStorage())
