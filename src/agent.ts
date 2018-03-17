@@ -6,8 +6,13 @@ import { DirectLine, DirectLineOptions } from 'botframework-directlinejs'
 
 
 /**
- * Interface Promise should resolve
+ * Interface Promise should resolve.
  * 
+ * ```js
+ * {
+ *  message: string
+ * }
+ * ```
  */
 export interface ResponseObject {
   message: string
@@ -19,7 +24,7 @@ export interface AgentConfig {
 }
 
 /**
- * Initialize agent with DirectLine secret to make calls
+ * Initialize agent with DirectLine secret to make calls.
  * 
  * **Usage Example**
  *
@@ -28,6 +33,7 @@ export interface AgentConfig {
  * 
  * // initialize agent
  * const agent = makeAgent('{DirectLineSecret}')
+ *
  * // create Promise make asynchronous call
  * agent(callPromise)
  * ```
