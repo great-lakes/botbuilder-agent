@@ -22,6 +22,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "botbuilder": "^4.0.0-m1.10",
+    "botbuilder-node": "^4.0.0-m1.10",
+    "botbuilder-services": "^4.0.0-m1.10",
+    "restify": "^6.3.4",
     "typescript": "^2.7.2"
   },
   "bugs": {
