@@ -1,5 +1,6 @@
 import { Bot, MemoryStorage, BotStateManager } from 'botbuilder'
 import { BotFrameworkAdapter } from 'botbuilder-services'
+import { makeAgent } from '../../src'
 const restify = require('restify')
 let server = restify.createServer()
 server.listen(process.env.port || 3978, () => {
