@@ -2,7 +2,8 @@
  * @module botbuilder-agent
  */
 
-import { DirectLine } from 'botframework-directlinejs'
+import { DirectLine, DirectLineOptions } from 'botframework-directlinejs'
+
 
 /**
  * Interface Promise should resolve
@@ -10,6 +11,11 @@ import { DirectLine } from 'botframework-directlinejs'
  */
 export interface ResponseObject {
   message: string
+}
+
+export interface AgentConfig {
+  directlineSecret?: string
+  botUrl?: string
 }
 
 /**
@@ -28,14 +34,27 @@ export interface ResponseObject {
  * @param secret - DirectLine secret
  */
 
-function makeDirectlineClient = (secret?: string) {
-  if (!secret) {
-    // make offline directline
-  }
+const startOfflineDirectline = (botUrl: string = ''): string => {
+  const domain: string = "http://127.0.0.1:3000"
+  const directline = require("offline-directline")
+  const express = require("express")
+
+  const app = express();
+  directline.initializeRoutes(app, domain, botUrl)
+  return `${domain}/v3/directline`
 }
 
-export function makeAgent (secret: string) {
-  const directLine = new DirectLine({secret})
+export function makeAgent ({directlineSecret, botUrl}: AgentConfig) {
+
+  const directlineConfig: DirectLineOptions = {
+    secret: directlineSecret
+  }
+
+  if (!directlineSecret) {
+    directlineConfig.domain = startOfflineDirectline(botUrl)
+  }
+
+  const directLine: DirectLine = new DirectLine(directlineConfig)
 
   return (call: () => Promise<ResponseObject>) => {
     call().then((responseObj) => {
