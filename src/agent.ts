@@ -21,6 +21,7 @@ export interface ResponseObject {
 export interface AgentConfig {
   directlineSecret?: string
   botUrl?: string
+  offline?: boolean
 }
 
 /**
@@ -50,25 +51,26 @@ const startOfflineDirectline = (botUrl: string = ''): string => {
   return `${domain}/v3/directline`
 }
 
-export function makeAgent ({directlineSecret, botUrl = 'http://localhost:3978/api/messages'}: AgentConfig) {
+export function makeAgent ({directlineSecret, botUrl = 'http://localhost:3978/api/messages', offline}: AgentConfig) {
 
   const directlineConfig: DirectLineOptions = {
     secret: directlineSecret
   }
 
-  if (!directlineSecret) {
+  if (offline) {
     directlineConfig.domain = startOfflineDirectline(botUrl)
   }
 
   const directLine: DirectLine = new DirectLine(directlineConfig)
 
   return (call: () => Promise<ResponseObject>) => {
-    call().then((responseObj) => {
-      directLine.postActivity({
-        from: { id: 'agent', name: 'wolf' },
-        type: 'message',
-        text: responseObj.message
-      })
+    call()
+      .then((responseObj) => {
+        directLine.postActivity({
+          from: { id: 'agent', name: 'wolf' },
+          type: 'message',
+          text: responseObj.message
+        })
     })
   }
 }

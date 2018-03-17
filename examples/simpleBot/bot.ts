@@ -17,7 +17,7 @@ server.post('/api/messages', adapter.listen())
 
 // botbuilder-agent
 import { makeAgent, ResponseObject } from '../../src'
-const agent = makeAgent({directlineSecret: process.env.DIRECTLINE_SECRET})
+const agent = makeAgent({directlineSecret: 'asdf', botUrl: 'http://localhost:8000/api/messages', offline: true})
 
 const asynchronousPromise = () : Promise<ResponseObject> => {
   return new Promise((resolve, reject) => {
