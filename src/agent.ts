@@ -2,8 +2,7 @@
  * @module botbuilder-agent
  */
 
-import { DirectLine, DirectLineOptions } from 'botframework-directlinejs'
-
+import fetch from 'node-fetch'
 
 /**
  * Interface Promise should resolve.
@@ -52,25 +51,44 @@ const startOfflineDirectline = (botUrl: string = ''): string => {
 }
 
 export function makeAgent ({directlineSecret, botUrl = 'http://localhost:3978/api/messages', offline}: AgentConfig) {
+  // const directlineConfig: DirectLineOptions = {
+  //   secret: directlineSecret
+  // }
 
-  const directlineConfig: DirectLineOptions = {
-    secret: directlineSecret
-  }
+  // // if (offline) {
+  //   directlineConfig.domain = startOfflineDirectline(botUrl)
+  // // }
 
-  if (offline) {
-    directlineConfig.domain = startOfflineDirectline(botUrl)
-  }
+  startOfflineDirectline(botUrl)
 
-  const directLine: DirectLine = new DirectLine(directlineConfig)
+  // const directLine: DirectLine = new DirectLine(directlineConfig)
 
   return (call: () => Promise<ResponseObject>) => {
     call()
       .then((responseObj) => {
-        directLine.postActivity({
-          from: { id: 'agent', name: 'wolf' },
-          type: 'message',
-          text: responseObj.message
+        const BOT_ENDPOINT = 'http://127.0.0.1:3000/directline/conversations/abc123/activities'
+        const messageActivity = {
+          "type": "message",
+          "from": {
+              "id": "agent",
+              "name": "wolf-agent"
+          },
+          "text": responseObj.message
+        }
+
+        fetch(BOT_ENDPOINT, {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(messageActivity)
         })
+          .then(res => {
+            return res.json()
+          })
+          .then(data => console.log('got from the bot:', data))
+
+
     })
   }
 }
