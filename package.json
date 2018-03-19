@@ -34,6 +34,7 @@
   "homepage": "https://github.com/great-lakes/botbuilder-agent#readme",
   "dependencies": {
     "@types/node-fetch": "^1.6.7",
+    "botbuilder-schema": "^4.0.0-m1.5",
     "botframework-directlinejs": "^0.9.14",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",

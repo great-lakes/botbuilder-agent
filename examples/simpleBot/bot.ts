@@ -17,7 +17,7 @@ server.post('/api/messages', adapter.listen())
 
 // botbuilder-agent
 import { makeAgent, ResponseObject } from '../../src'
-const agent = makeAgent({directlineSecret: undefined, botUrl: 'http://localhost:3978/api/messages', offline: true})
+const agent = makeAgent({directlineSecret: undefined, botUrl: 'http://localhost:8000/api/messages', offline: true})
 
 const asynchronousPromise = () : Promise<ResponseObject> => {
   return new Promise((resolve, reject) => {
@@ -36,7 +36,9 @@ new Bot(adapter)
           return
         }
 
-        if (context.request.from.id === 'agent') {
+        const configuredAgent = agent(context.conversationReference)
+        if (context.request.value && context.request.value.name === 'botbuilder-agent') {
+          context.conversationReference = context.request.value.convo
           context.reply(context.request.text)
           return
         }
@@ -45,7 +47,7 @@ new Bot(adapter)
         context.reply(message)
 
         if (message[0] === 'k') {
-          agent(asynchronousPromise)
+          configuredAgent(asynchronousPromise)
         }
 
       } catch (err) {

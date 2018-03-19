@@ -3,6 +3,7 @@
  */
 
 import fetch from 'node-fetch'
+import {ConversationReference} from 'botbuilder-schema'
 
 /**
  * Interface Promise should resolve.
@@ -21,6 +22,15 @@ export interface AgentConfig {
   directlineSecret?: string
   botUrl?: string
   offline?: boolean
+}
+
+export interface AgentConversationReference {
+  channelId: string
+  serviceUrl: string
+  conversation: Object
+  bot: Object
+  user: Object
+  activityId: string
 }
 
 /**
@@ -63,17 +73,21 @@ export function makeAgent ({directlineSecret, botUrl = 'http://localhost:3978/ap
 
   // const directLine: DirectLine = new DirectLine(directlineConfig)
 
-  return (call: () => Promise<ResponseObject>) => {
+  return (conversationReference: Partial<ConversationReference>) => (call: () => Promise<ResponseObject>) => {
     call()
       .then((responseObj) => {
-        const BOT_ENDPOINT = 'http://127.0.0.1:3000/directline/conversations/abc123/activities'
+        const BOT_ENDPOINT = `http://127.0.0.1:3000/directline/conversations/${conversationReference.conversation.id}/activities`
         const messageActivity = {
-          "type": "message",
-          "from": {
-              "id": "agent",
-              "name": "wolf-agent"
+          type: 'message',
+          from: {
+              id: conversationReference.user ? conversationReference.user.id || 'default-user' : 'default-user',
+              name: conversationReference.user ? conversationReference.user.name || 'User' : 'User'
           },
-          "text": responseObj.message
+          text: responseObj.message,
+          value: {
+            name: 'botbuilder-agent',
+            convo: conversationReference
+          }
         }
 
         fetch(BOT_ENDPOINT, {
@@ -87,7 +101,6 @@ export function makeAgent ({directlineSecret, botUrl = 'http://localhost:3978/ap
             return res.json()
           })
           .then(data => console.log('got from the bot:', data))
-
 
     })
   }
